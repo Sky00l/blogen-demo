@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <link rel="stylesheet" href="/css/all.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <title>Blogen Dashboard</title>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0">
+      <div class="container">
+        <a href="/blogen" class="navbar-brand"><%= title %></a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav">
+            <li class="nav-item px-2">
+              <a href="/blogen/dashboard" class="nav-link active">Dashboard</a>
+            </li>
+            <li class="nav-item px-2">
+              <a href="/blogen/post" class="nav-link">Posts</a>
+            </li>
+            <li class="nav-item px-2">
+              <a href="/blogen/category" class="nav-link">Categories</a>
+            </li>
+            <li class="nav-item px-2">
+              <a href="/blogen/user" class="nav-link">Users</a>
+            </li>
+          </ul>
+
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown mr-3">
+              <a
+                href="#"
+                class="nav-link dropdown-toggle"
+                data-toggle="dropdown"
+              >
+                <i class="fas fa-user"></i> Welcome Brad
+              </a>
+              <div class="dropdown-menu">
+                <a href="profile.html" class="dropdown-item">
+                  <i class="fas fa-user-circle"></i> Profile
+                </a>
+                <a href="settings.html" class="dropdown-item">
+                  <i class="fas fa-cog"></i> Settings
+                </a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a href="login.html" class="nav-link">
+                <i class="fas fa-user-times"></i> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HEADER -->
+    <header id="main-header" class="py-2 bg-primary text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h1><i class="fas fa-cog"></i> Dashboard</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ACTIONS -->
+    <section id="actions" class="py-4 mb-4 bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <a
+              href="#"
+              class="btn btn-primary btn-block"
+              data-toggle="modal"
+              data-target="#addPostModal"
+            >
+              <i class="fas fa-plus"></i> Add Post
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a
+              href="#"
+              class="btn btn-success btn-block"
+              data-toggle="modal"
+              data-target="#addCategoryModal"
+            >
+              <i class="fas fa-plus"></i> Add Category
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a
+              href="#"
+              class="btn btn-warning btn-block"
+              data-toggle="modal"
+              data-target="#addUserModal"
+            >
+              <i class="fas fa-plus"></i> Add User
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POSTS -->
+    <section id="posts">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-header">
+                <h4>Latest Posts</h4>
+              </div>
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(let i=0; i < data.length; i++){ %>
+                  <tr>
+                    <td><%= data[i].id %></td>
+                    <td><%= data[i].title %></td>
+                    <td><%= data[i].category %></td>
+                    <td><%= data[i].date.toDateString().substring(4,15) %></td>
+                    <td>
+                      <a
+                        href="/blogen/post/details?_id=<%= data[i]._id %>"
+                        class="btn btn-secondary"
+                      >
+                        <i class="fas fa-angle-double-right"></i> Details
+                      </a>
+                    </td>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card text-center bg-primary text-white mb-3">
+              <div class="card-body">
+                <h3>Posts</h3>
+                <h4 class="display-4">
+                  <i class="fas fa-pencil-alt"></i> <%= postCount %>
+                </h4>
+                <a href="/blogen/post" class="btn btn-outline-light btn-sm"
+                  >View</a
+                >
+              </div>
+            </div>
+
+            <div class="card text-center bg-success text-white mb-3">
+              <div class="card-body">
+                <h3>Categories</h3>
+                <h4 class="display-4">
+                  <i class="fas fa-folder"></i> <%= categoryCount %>
+                </h4>
+                <a href="/blogen/category" class="btn btn-outline-light btn-sm"
+                  >View</a
+                >
+              </div>
+            </div>
+
+            <div class="card text-center bg-warning text-white mb-3">
+              <div class="card-body">
+                <h3>Users</h3>
+                <h4 class="display-4">
+                  <i class="fas fa-users"></i> <%= userCount %>
+                </h4>
+                <a href="/blogen/user" class="btn btn-outline-light btn-sm"
+                  >View</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="main-footer" class="bg-dark text-white mt-5 p-5">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <p class="lead text-center">
+              Copyright &copy;
+              <span id="year"></span>
+              Blogen
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MODALS -->
+
+    <!-- ADD POST MODAL -->
+    <div class="modal fade" id="addPostModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title">Add Post</h5>
+            <button class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="createPost" action="/blogen/post/create" method="post">
+              <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" name="id" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" name="title" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="postdate">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  class="form-control"
+                  value="<%= new Date() %>"
+                />
+              </div>
+              <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" name="category">
+                  <% category.forEach( p => { %>
+                  <option value="<%= p.title %>"><%= p.title %></option>
+                  <% }); %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="image">Upload Image</label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="image" />
+                  <label for="image" class="custom-file-label"
+                    >Choose File</label
+                  >
+                </div>
+                <small class="form-text text-muted">Max Size 3mb</small>
+              </div>
+              <div class="form-group">
+                <label for="body">Body</label>
+                <textarea name="editor1" class="form-control"> </textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-primary"
+              data-dismiss="modal"
+              onclick="createPost()"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD CATEGORY MODAL -->
+    <div class="modal fade" id="addCategoryModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title">Add Category</h5>
+            <button class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-success" data-dismiss="modal">
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD USER MODAL -->
+    <div class="modal fade" id="addUserModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-warning text-white">
+            <h5 class="modal-title">Add User</h5>
+            <button class="close" data-dismiss="modal">
+              <span>&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="password2">Confirm Password</label>
+                <input type="password" class="form-control" />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-warning" data-dismiss="modal">
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+
+    <script>
+      // Get the current year for the copyright
+      $("#year").text(new Date().getFullYear());
+
+      CKEDITOR.replace("editor1");
+
+      function createPost() {
+        document.getElementById("createPost").submit();
+      }
+    </script>
+  </body>
+</html>
